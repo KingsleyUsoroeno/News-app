@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">News24</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="fragment_general_news"> General </string>
+
+    <string name="fragment_sport"> Sport </string>
+
+    <string name="fragment_tech_news"> Tech News </string>
+
+    <string name="toolBar_text"> News 24 </string>
+
+    <string name="detail_toolBar_text"> Full Story  </string>
+
+    <string name="rating_number">5.0</string>
+    <string name="button_text">Read full story</string>
+
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Hello News 24!</string>
+    <string name="slide_1_desc">The easiest way to keep up to Date!</string>
+
+    <string name="slide_2_title">Sports </string>
+    <string name="slide_2_desc">Stay up to date with your Favourite sport personnel and team !</string>
+
+    <string name="slide_3_title">Great Discounts</string>
+    <string name="slide_3_desc">Best discounts on every single subscription we offer!</string>
+
+    <string name="slide_4_title">World Travel</string>
+    <string name="slide_4_desc">Book tickets of any transportation and travel the world!</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+    <string name="textView_text">Click to Read full Story</string>
+    <string name="textView_description">Description</string>
+    <string name="textView_title">Title</string>
+    <string name="textView_author">Author</string>
+
+</resources>
