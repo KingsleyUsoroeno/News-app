@@ -37,21 +37,21 @@ public class DetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent detailIntent = getIntent();
-        final String intentName = detailIntent.getStringExtra("news_item");
+//        final String intentName = detailIntent.getStringExtra("news_item");
         final News thisNews = detailIntent.getParcelableExtra("news_item");
 
         CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(intentName);
+//        collapsingToolbar.setTitle(thisNews.getAuthor());
+        toolbar.setTitle(thisNews.getTitle());
 
 
-        button_openFullStory = (FloatingActionButton) findViewById(R.id.detailActivity_Button);
+        button_openFullStory = findViewById(R.id.detailActivity_Button);
 
 
-        imageView = (ImageView) findViewById(R.id.detailActivity_ImageView);
-        author = (TextView) findViewById(R.id.Author);
-        newsTitle = (TextView) findViewById(R.id.detailActivity_NewsTitle);
-        newsDescription = (TextView) findViewById(R.id.detailActivity_NewsDescription);
-
+        imageView = findViewById(R.id.detailActivity_ImageView);
+        author = findViewById(R.id.Author);
+        newsTitle = findViewById(R.id.detailActivity_NewsTitle);
+        newsDescription = findViewById(R.id.detailActivity_NewsDescription);
 
         Glide.with(this)
                 .asBitmap()

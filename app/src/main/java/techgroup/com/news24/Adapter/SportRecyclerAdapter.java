@@ -15,15 +15,17 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import techgroup.com.news24.Models.GeneralNews;
 import techgroup.com.news24.Models.News;
+import techgroup.com.news24.Models.SportNews;
+import techgroup.com.news24.Models.TechNews;
 import techgroup.com.news24.R;
 
-public class FragmentRecyclerAdapter extends RecyclerView.Adapter<FragmentRecyclerAdapter.GeneralNewsViewHolder> {
+public class SportRecyclerAdapter extends RecyclerView.Adapter<SportRecyclerAdapter.GeneralNewsViewHolder> {
 
     private Context context;
-    private List<GeneralNews> newsArrayList;
+    private List<TechNews> newsArrayList;
     private OnItemClickListener mListener;
 
-    public FragmentRecyclerAdapter(Context context) {
+    public SportRecyclerAdapter(Context context) {
         this.context = context;
     }
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -43,7 +45,8 @@ public class FragmentRecyclerAdapter extends RecyclerView.Adapter<FragmentRecycl
 
     @Override
     public void onBindViewHolder(@NonNull GeneralNewsViewHolder holder, int position) {
-        News newsModel = newsArrayList.get(holder.getAdapterPosition());
+        TechNews newsModel = newsArrayList.get(holder.getAdapterPosition());
+
         Glide.with(context)
                 .asBitmap()
                 .load(newsModel.getUrlToImage())
@@ -60,9 +63,10 @@ public class FragmentRecyclerAdapter extends RecyclerView.Adapter<FragmentRecycl
         } else {
             return newsArrayList.size();
         }
+
     }
 
-    public void setNewsList(List<GeneralNews> news) {
+    public void setNewsList(List<TechNews> news) {
         this.newsArrayList = news;
         notifyDataSetChanged();
     }
@@ -74,8 +78,10 @@ public class FragmentRecyclerAdapter extends RecyclerView.Adapter<FragmentRecycl
 
         public GeneralNewsViewHolder(View itemView) {
             super(itemView);
-            circleImageView = itemView.findViewById(R.id.ImageView);
-             textView_title = itemView.findViewById(R.id.News_Title);
+
+             circleImageView = (CircleImageView) itemView.findViewById(R.id.ImageView);
+             textView_title = (TextView) itemView.findViewById(R.id.News_Title);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

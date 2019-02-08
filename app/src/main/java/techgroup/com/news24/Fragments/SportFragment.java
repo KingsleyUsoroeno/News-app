@@ -24,7 +24,7 @@ import techgroup.com.news24.Activities.DetailActivity;
 import techgroup.com.news24.Activities.ViewModel;
 import techgroup.com.news24.Adapter.SportFragmentAdapter;
 import techgroup.com.news24.Interfaces.NewsApi;
-import techgroup.com.news24.ModelWrapper.SportNewsList;
+import techgroup.com.news24.ModelWrapper.ModelList;
 import techgroup.com.news24.Models.SportNews;
 import techgroup.com.news24.NetworkOperations.GetAllModelRetrofitInstance;
 import techgroup.com.news24.R;
@@ -35,11 +35,10 @@ import techgroup.com.news24.R;
 public class SportFragment extends Fragment {
 
     private static final String TAG = "SportFragment";
-    public GeneralViewModel viewModel;
+    public ViewModel viewModel;
     private static final String API_KEY = "b37668ef0d1e4ac283ad4c621cc396cf";
     SportFragmentAdapter sportFragmentAdapter;
     RecyclerView recyclerView;
-    ViewModel viewModel;
 
     public SportFragment() {
         // Required empty public constructor
@@ -50,16 +49,16 @@ public class SportFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // initialise ViewModel
-        viewModel = ViewModelProviders.of(getActivity()).get(GeneralViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(ViewModel.class);
 
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_sport, container, false);
 
         recyclerView = view.findViewById(R.id.sportNewsRecyclerView);
+        // Call our Network Method
         getSportData();
-        viewModel = ViewModelProviders.of(getActivity()).get(ViewModel.class);
 
-        viewModel.getSportNews().observe(getActivity(), new Observer<List<SportNews>>() {
+        viewModel.getSportNews().observe(this, new Observer<List<SportNews>>() {
             @Override
             public void onChanged(@Nullable List<SportNews> sportNews) {
                 initialiseRecyclerView((ArrayList<SportNews>) sportNews);
@@ -69,25 +68,25 @@ public class SportFragment extends Fragment {
         return view;
     }
     public void getSportData(){
-        NewsApi sportApi = GetAllModelRetrofitInstance.sportNewsJsonResponse().create(NewsApi.class);
+        NewsApi sportApi = GetAllModelRetrofitInstance.retrofitInstance().create(NewsApi.class);
         /*** Create handle for the RetrofitInstance interface*/
-        Call<SportNewsList> sportData = sportApi.getSportData("football-italia",API_KEY);
-        sportData.enqueue(new Callback<SportNewsList>() {
+        Call<ModelList.SportNewsList> sportData = sportApi.getSportData("football-italia",API_KEY);
+        sportData.enqueue(new Callback<ModelList.SportNewsList>() {
             @Override
-            public void onResponse(Call<SportNewsList> call, Response<SportNewsList> response) {
-                ArrayList<SportNews> sportList = response.body().getAllSportNews();
-                viewModel.InsertSport(sportList);
+            public void onResponse(Call<ModelList.SportNewsList> call, Response<ModelList.SportNewsList> response) {
+                if (response.body() != null){
+                    viewModel.InsertSport(response.body().getAllSportNews());
+                }
             }
 
             @Override
-            public void onFailure(Call<SportNewsList> call, Throwable t) {
+            public void onFailure(Call<ModelList.SportNewsList> call, Throwable t) {
                 Log.d(TAG, "Network Error : " + t.getMessage());
             }
         });
 
     }
     public void initialiseRecyclerView( final ArrayList<SportNews> sportNews) {
-
         LinearLayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(getContext());
         sportFragmentAdapter = new SportFragmentAdapter(getContext());
@@ -104,7 +103,5 @@ public class SportFragment extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
-
-
     }
 }

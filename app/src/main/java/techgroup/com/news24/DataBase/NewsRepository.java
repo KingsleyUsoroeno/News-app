@@ -4,7 +4,6 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import techgroup.com.news24.Models.GeneralNews;
@@ -19,24 +18,21 @@ public class NewsRepository {
     // And Access to Our LiveData which can Also be Found in our PictureDao to be able to
     // Observe the data and Save it in Our Database
     private LiveData<List<News>> getAllNews;
-    private LiveData<List<GeneralNews>> getAllGeneralNews;
-    private LiveData<List<SportNews>> getAllSport;
-    private LiveData<List<TechNews>> getAllTech;
+    private LiveData<List<GeneralNews>> generalNewsLiveData;
+    private LiveData<List<SportNews>> sportNewsLiveData;
+    private LiveData<List<TechNews>> techNewsLiveData;
 
 
     public NewsRepository(Application application) {
-
         NewsDataBase newsDataBase = NewsDataBase.getInstance(application);
         newsDao = newsDataBase.newsDao();
         getAllNews = newsDao.getAllNews();
-        getAllGeneralNews = newsDao.getAllGeneralNews();
-        getAllSport = newsDao.getAllSportNews();
-        getAllTech = newsDao.getAllTechNews();
-
-
+        generalNewsLiveData = newsDao.getAllGeneralNews();
+        sportNewsLiveData = newsDao.getAllSportNews();
+        techNewsLiveData = newsDao.getAllTechNews();
     }
 
-    public void InsertNews(ArrayList<News> news) {
+    public void InsertNews(List<News> news) {
 
         new InsertNewsAsyncTask(newsDao, news).execute();
     }
@@ -46,86 +42,86 @@ public class NewsRepository {
     }
 
     public LiveData<List<GeneralNews>> getGetAllGeneralNews() {
-        return getAllGeneralNews;
+        return generalNewsLiveData;
     }
 
     public LiveData<List<SportNews>> getGetAllSport() {
-        return getAllSport;
+        return sportNewsLiveData;
     }
+
     public LiveData<List<TechNews>> getAllSport() {
-        return getAllTech;
+        return techNewsLiveData;
     }
 
 
     public LiveData<List<TechNews>> getGetAllTech() {
-        return getAllTech;
+        return techNewsLiveData;
     }
-    public void insertGeneral(ArrayList<GeneralNews> generalNews){
-        new InsertGeneralNews(newsDao,generalNews).execute(generalNews);
 
-    }
-    public void insertSport(ArrayList<SportNews> sportNews){
-        new InsertSportNews(newsDao,sportNews).execute();
-
-    }
-    public void insertTech(ArrayList<TechNews> techNews){
-        new InsertTechNews(newsDao,techNews).execute();
+    public void insertGeneral(List<GeneralNews> generalNews) {
+        new InsertGeneralNews(newsDao, generalNews).execute(generalNews);
 
     }
 
-    private static class InsertNewsAsyncTask extends AsyncTask<ArrayList<News>, Void, Void> {
+    public void insertSport(List<SportNews> sportNews) {
+        new InsertSportNews(newsDao, sportNews).execute();
+
+    }
+
+    public void insertTech(List<TechNews> techNews) {
+        new InsertTechNews(newsDao, techNews).execute();
+
+    }
+
+    private static class InsertNewsAsyncTask extends AsyncTask<List<News>, Void, Void> {
 
         // So in these InsertPictureAsyncTask we must have Access to our
         // NoteDao as we use our NoteDao to perform Database operations
-
         private NewsDao newsDao;
-        private ArrayList<News> mNews;
+        private List<News> mNews;
 
-        public InsertNewsAsyncTask(NewsDao newsDao, ArrayList<News> news) {
-
+        public InsertNewsAsyncTask(NewsDao newsDao, List<News> news) {
             this.newsDao = newsDao;
             mNews = news;
         }
 
         @Override
-        protected Void doInBackground(ArrayList<News>... contacts) {
+        protected Void doInBackground(List<News>... contacts) {
             newsDao.insertNews(mNews);
             return null;
         }
     }
 
-    private static class InsertGeneralNews extends AsyncTask<ArrayList<GeneralNews>, Void, Void> {
+    private static class InsertGeneralNews extends AsyncTask<List<GeneralNews>, Void, Void> {
 
         // So in these InsertPictureAsyncTask we must have Access to our
         // NoteDao as we use our NoteDao to perform Database operations
-
         private NewsDao newsDao;
-        private ArrayList<GeneralNews> generalNews;
+        private List<GeneralNews> generalNews;
 
-        public InsertGeneralNews(NewsDao newsDao, ArrayList<GeneralNews> news) {
-
+        public InsertGeneralNews(NewsDao newsDao, List<GeneralNews> news) {
             this.newsDao = newsDao;
             generalNews = news;
         }
 
 
         @Override
-        protected Void doInBackground(ArrayList<GeneralNews>... arrayLists) {
+        protected Void doInBackground(List<GeneralNews>... arrayLists) {
             newsDao.insertGeneral(generalNews);
             return null;
         }
 
     }
 
-    private static class InsertSportNews extends AsyncTask<ArrayList<SportNews>, Void, Void> {
+    private static class InsertSportNews extends AsyncTask<List<SportNews>, Void, Void> {
 
         // So in these InsertPictureAsyncTask we must have Access to our
         // NoteDao as we use our NoteDao to perform Database operations
 
         private NewsDao newsDao;
-        private ArrayList<SportNews> sportNews;
+        private List<SportNews> sportNews;
 
-        public InsertSportNews(NewsDao newsDao, ArrayList<SportNews> news) {
+        public InsertSportNews(NewsDao newsDao, List<SportNews> news) {
 
             this.newsDao = newsDao;
             sportNews = news;
@@ -133,30 +129,30 @@ public class NewsRepository {
 
 
         @Override
-        protected Void doInBackground(ArrayList<SportNews>... news) {
+        protected Void doInBackground(List<SportNews>... news) {
             newsDao.insertSport(sportNews);
             return null;
         }
     }
 
-    private static class InsertTechNews extends AsyncTask<ArrayList<TechNews>, Void, Void> {
+    private static class InsertTechNews extends AsyncTask<List<TechNews>, Void, Void> {
 
         // So in these InsertPictureAsyncTask we must have Access to our
         // NoteDao as we use our NoteDao to perform Database operations
 
         private NewsDao newsDao;
-        private ArrayList<TechNews> Tnews;
+        private List<TechNews> techNews;
 
-        public InsertTechNews(NewsDao newsDao, ArrayList<TechNews> techNews) {
+        public InsertTechNews(NewsDao newsDao, List<TechNews> tech) {
 
             this.newsDao = newsDao;
-            Tnews = techNews;
+            techNews = tech;
         }
 
 
         @Override
-        protected Void doInBackground(ArrayList<TechNews>... arrayLists) {
-            newsDao.insertTech(Tnews);
+        protected Void doInBackground(List<TechNews>... arrayLists) {
+            newsDao.insertTech(techNews);
             return null;
         }
     }

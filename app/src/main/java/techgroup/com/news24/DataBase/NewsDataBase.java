@@ -28,7 +28,7 @@ public abstract class NewsDataBase extends RoomDatabase {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     NewsDataBase.class,
-                    "news")
+                    "news_database")
                     .fallbackToDestructiveMigration()
                     // So we use the Callback to populate our Database before we
                     // Start adding Stuff into the DataBase Ourselves

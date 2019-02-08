@@ -16,7 +16,7 @@ public class GetAllModelRetrofitInstance {
     /**
      * Create an instance of Retrofit object
      */
-    public static Retrofit sportNewsJsonResponse() {
+    public static Retrofit retrofitInstance() {
         if (retrofit == null) {
             retrofit = new retrofit2.Retrofit.Builder()
                     .baseUrl(BASE_URL)
@@ -26,31 +26,6 @@ public class GetAllModelRetrofitInstance {
         return retrofit;
     }
 
-    /**
-     * Create an instance of Retrofit object
-     */
-    public static Retrofit generalNewsJsonResponse() {
-        if (retrofit == null) {
-            retrofit = new retrofit2.Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return retrofit;
-    }
-
-    /**
-     * Create an instance of Retrofit object
-     */
-    public static Retrofit techNewsJsonResponse() {
-        if (retrofit == null) {
-            retrofit = new retrofit2.Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return retrofit;
-    }
     public static Retrofit getStudentResponse(){
         Gson gson = new GsonBuilder()
                 .setLenient()

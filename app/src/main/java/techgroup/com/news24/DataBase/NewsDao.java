@@ -18,16 +18,16 @@ import techgroup.com.news24.Models.TechNews;
 public interface NewsDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertNews(ArrayList<News> news);
+    void insertNews(List<News> news);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertGeneral(ArrayList<GeneralNews> generalNews);
+    void insertGeneral(List<GeneralNews> generalNews);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertSport(ArrayList<SportNews> sportNews);
+    void insertSport(List<SportNews> sportNews);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertTech(ArrayList<TechNews> techNews);
+    void insertTech(List<TechNews> techNews);
 
     @Query("SELECT * FROM news ")
     LiveData<List<News>> getAllNews();

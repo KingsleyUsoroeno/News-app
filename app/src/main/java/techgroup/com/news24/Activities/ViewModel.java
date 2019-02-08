@@ -25,8 +25,9 @@ public class ViewModel extends AndroidViewModel {
 
     private NewsRepository newsRepository;
     private LiveData<List<News>> allNews;
-    private LiveData<List<GeneralNews>> GeneralNews;
-    private LiveData<List<SportNews>> sportNews;
+    private LiveData<List<GeneralNews>> generalNewsLiveData;
+    private LiveData<List<SportNews>> sportNewsLiveData;
+    private LiveData<List<TechNews>> techNewsLiveData;
 
 
     public ViewModel(@NonNull Application application) {
@@ -34,8 +35,9 @@ public class ViewModel extends AndroidViewModel {
 
         newsRepository = new NewsRepository(application);
         allNews = newsRepository.getAllNews();
-        GeneralNews = newsRepository.getGetAllGeneralNews();
-        sportNews = newsRepository.getGetAllSport();
+        generalNewsLiveData = newsRepository.getGetAllGeneralNews();
+        sportNewsLiveData = newsRepository.getGetAllSport();
+        techNewsLiveData = newsRepository.getGetAllTech();
 
         // All we all Know that our Activities should only have Access to
         // Our ViewHolder right, so below we create a Method that instantiates
@@ -44,31 +46,34 @@ public class ViewModel extends AndroidViewModel {
         // methods
     }
 
-    public void InsertNews(ArrayList<News> news) {
+    public void InsertNews(List<News> news) {
         newsRepository.InsertNews(news);
     }
 
+    public void InsertGeneral(List<GeneralNews> generalNews) {
+        newsRepository.insertGeneral(generalNews);
+    }
+
+    public void InsertSport(List<SportNews> sportNews) {
+        newsRepository.insertSport(sportNews);
+    }
+    public void InsertTech(List<TechNews> techNews) {
+        newsRepository.insertTech(techNews);
+    }
+    // Our LiveData
     public LiveData<List<News>> getAllNews() {
         return allNews;
     }
 
     public LiveData<List<GeneralNews>> getGeneralNews(){
-        return GeneralNews;
+        return generalNewsLiveData;
     }
 
     public LiveData<List<SportNews>> getSportNews() {
-        return sportNews;
+        return sportNewsLiveData;
     }
 
-    public void InsertGeneral(ArrayList<GeneralNews> generalNews) {
-        newsRepository.insertGeneral(generalNews);
+    public LiveData<List<TechNews>> getTechNewsLiveData() {
+        return techNewsLiveData;
     }
-
-    public void InsertSport(ArrayList<SportNews> sportNews) {
-        newsRepository.insertSport(sportNews);
-    }
-    public void InsertTech(ArrayList<TechNews> techNews) {
-        newsRepository.insertTech(techNews);
-    }
-
 }

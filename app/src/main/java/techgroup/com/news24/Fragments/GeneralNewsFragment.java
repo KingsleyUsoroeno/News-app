@@ -24,7 +24,7 @@ import techgroup.com.news24.Activities.DetailActivity;
 import techgroup.com.news24.Activities.ViewModel;
 import techgroup.com.news24.Adapter.FragmentRecyclerAdapter;
 import techgroup.com.news24.Interfaces.NewsApi;
-import techgroup.com.news24.ModelWrapper.GeneralNewsList;
+import techgroup.com.news24.ModelWrapper.ModelList;
 import techgroup.com.news24.Models.GeneralNews;
 import techgroup.com.news24.NetworkOperations.GetAllModelRetrofitInstance;
 import techgroup.com.news24.R;
@@ -52,13 +52,13 @@ public class GeneralNewsFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_general_news, container, false);
 
         // initialise our ViewModel Object
-        viewModel = ViewModelProviders.of(getActivity()).get(ViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(ViewModel.class);
         recyclerView = (RecyclerView) view.findViewById(R.id.generalNewsRecyclerView);
         // Calling Our News Data Class
         getNewsData();
 
         /*** Create handle for the RetrofitInstance interface*/
-        viewModel.getGeneralNews().observe(getActivity(), new Observer<List<GeneralNews>>() {
+        viewModel.getGeneralNews().observe(this, new Observer<List<GeneralNews>>() {
             @Override
             public void onChanged(@Nullable List<GeneralNews> news) {
                 initialiseRecyclerView((ArrayList<GeneralNews>) news);
@@ -69,7 +69,6 @@ public class GeneralNewsFragment extends Fragment {
     }
     // initRecyclerView Adapter
     public void initialiseRecyclerView( final ArrayList<GeneralNews> generalNews) {
-
         LinearLayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(getContext());
         fragmentRecyclerAdapter = new FragmentRecyclerAdapter(getContext());
@@ -88,20 +87,20 @@ public class GeneralNewsFragment extends Fragment {
         });
     }
     public  void getNewsData(){
-
-        NewsApi newsApi = GetAllModelRetrofitInstance.generalNewsJsonResponse().create(NewsApi.class);
-        final Call<GeneralNewsList> newsListCall = newsApi.getGeneralNewsData("abc-news",API_KEY);
+        NewsApi newsApi = GetAllModelRetrofitInstance.retrofitInstance().create(NewsApi.class);
+        final Call<ModelList.GeneralNewsList> newsListCall = newsApi.getGeneralNewsData("abc-news",API_KEY);
         /**  Log the URL called*/
         Log.wtf("URL Called", newsListCall.request().url() + "");
-        newsListCall.enqueue(new Callback<GeneralNewsList>() {
+        newsListCall.enqueue(new Callback<ModelList.GeneralNewsList>() {
             @Override
-            public void onResponse(Call<GeneralNewsList> call, Response<GeneralNewsList> response) {
-                ArrayList<GeneralNews> news = response.body().getAllGeneralNews();
-                viewModel.InsertGeneral(news);
+            public void onResponse(Call<ModelList.GeneralNewsList> call, Response<ModelList.GeneralNewsList> response) {
+                if (response.body() != null){
+                    viewModel.InsertGeneral(response.body().getAllGeneralNews());
+                }
             }
 
             @Override
-            public void onFailure(Call<GeneralNewsList> call, Throwable t) {
+            public void onFailure(Call<ModelList.GeneralNewsList> call, Throwable t) {
                 Log.d(TAG, "onFailure: " + t.getMessage());
                 Log.d(TAG, "App Might Crash: ");
             }
