@@ -1,5 +1,7 @@
 package techgroup.com.news24.Interfaces;
 
+import android.support.annotation.NonNull;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -16,7 +18,7 @@ public interface NewsApi {
 
     //Sport Data Api
     @GET("v2/top-headlines")
-    Call<ModelList.SportNewsList> getSportData(@Query("sources") String sources , @Query("apiKey") String apiKey);
+    Call<ModelList.SportNewsList> getSportData(@Query("sources")@NonNull String sources, @Query("apiKey")@NonNull String apiKey);
 
     // TechNews Data Api
     @GET("/v2/top-headlines/")

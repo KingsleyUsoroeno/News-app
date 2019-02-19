@@ -20,7 +20,7 @@ public interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertNews(List<News> news);
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertGeneral(List<GeneralNews> generalNews);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

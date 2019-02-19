@@ -15,55 +15,105 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import techgroup.com.news24.Models.GeneralNews;
 import techgroup.com.news24.Models.News;
+import techgroup.com.news24.Models.SportNews;
+import techgroup.com.news24.Models.TechNews;
 import techgroup.com.news24.R;
 
-public class FragmentRecyclerAdapter extends RecyclerView.Adapter<FragmentRecyclerAdapter.GeneralNewsViewHolder> {
+public class FragmentRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
-    private List<GeneralNews> newsArrayList;
+    // Our DataArrays
+    private List<GeneralNews> generalNewsList;
+    private List<SportNews> sportNewsArray;
+    private List<TechNews> techNewsArray;
+
     private OnItemClickListener mListener;
+    private static final int GENERAL_NEWS = 0;
+    private static final int SPORT_NEWS = 1;
+    private static final int TECH_NEWS = 2;
 
     public FragmentRecyclerAdapter(Context context) {
         this.context = context;
     }
-    public void setOnItemClickListener(OnItemClickListener listener){
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.mListener = listener;
     }
-    public interface OnItemClickListener{
+
+    public interface OnItemClickListener {
         void onItemClicked(int position);
     }
 
     @NonNull
     @Override
-    public GeneralNewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_recycler_layout,parent,false);
-        return new GeneralNewsViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_recycler_layout, parent, false);
+        if (viewType == GENERAL_NEWS) {
+            return new GeneralNewsViewHolder(view);
+        }
+        if (viewType == SPORT_NEWS) {
+            return new SportNewsViewHolder(view);
+        }
+        if (viewType == TECH_NEWS) {
+            return new TechNewsViewHolder(view);
+        }
+        return null;
     }
 
-
     @Override
-    public void onBindViewHolder(@NonNull GeneralNewsViewHolder holder, int position) {
-        News newsModel = newsArrayList.get(holder.getAdapterPosition());
-        Glide.with(context)
-                .asBitmap()
-                .load(newsModel.getUrlToImage())
-                .into(holder.circleImageView);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof GeneralNewsViewHolder) {
+            GeneralNews generalNews = generalNewsList.get(position);
+            ((GeneralNewsViewHolder) holder).textView_title.setText(generalNews.getTitle());
+            Glide.with(context)
+                    .asBitmap()
+                    .load(generalNews.getUrlToImage())
+                    .into(((GeneralNewsViewHolder) holder).circleImageView);
+        }
+        if (holder instanceof SportNewsViewHolder){
+            SportNews sportNews = sportNewsArray.get(position);
+            ((SportNewsViewHolder) holder).textView_title.setText(sportNews.getTitle());
+            Glide.with(context)
+                    .asBitmap()
+                    .load(sportNews.getUrlToImage())
+                    .into(((SportNewsViewHolder) holder).circleImageView);
+        }
 
-         holder.textView_title.setText(newsModel.getTitle());
+        if (holder instanceof TechNewsViewHolder){
+            TechNews techNews = techNewsArray.get(position);
+            ((TechNewsViewHolder) holder).textView_title.setText(techNews.getTitle());
+            Glide.with(context)
+                    .asBitmap()
+                    .load(techNews.getUrlToImage())
+                    .into(((TechNewsViewHolder) holder).circleImageView);
 
+        }
     }
 
     @Override
     public int getItemCount() {
-        if (newsArrayList == null) {
+        if (generalNewsList == null || sportNewsArray == null || techNewsArray == null) {
             return 0;
         } else {
-            return newsArrayList.size();
+            return generalNewsList.size() + sportNewsArray.size() + techNewsArray.size();
         }
     }
 
-    public void setNewsList(List<GeneralNews> news) {
-        this.newsArrayList = news;
+    @Override
+    public int getItemViewType(int position) {
+        if (position < generalNewsList.size()){
+            return GENERAL_NEWS;
+        }
+        if (position - generalNewsList.size() < sportNewsArray.size()){
+            return SPORT_NEWS;
+        }
+        return -1;
+    }
+
+    public void setNewsList(List<GeneralNews> news, List<SportNews> sportNewsArray, List<TechNews> techNews) {
+        this.generalNewsList = news;
+        this.sportNewsArray = sportNewsArray;
+        this.techNewsArray = techNews;
         notifyDataSetChanged();
     }
 
@@ -75,13 +125,13 @@ public class FragmentRecyclerAdapter extends RecyclerView.Adapter<FragmentRecycl
         public GeneralNewsViewHolder(View itemView) {
             super(itemView);
             circleImageView = itemView.findViewById(R.id.ImageView);
-             textView_title = itemView.findViewById(R.id.News_Title);
+            textView_title = itemView.findViewById(R.id.News_Title);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mListener != null){
+                    if (mListener != null) {
                         int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             mListener.onItemClicked(position);
                         }
                     }
@@ -90,4 +140,52 @@ public class FragmentRecyclerAdapter extends RecyclerView.Adapter<FragmentRecycl
             });
         }
     }
+
+    public class SportNewsViewHolder extends RecyclerView.ViewHolder {
+        CircleImageView circleImageView;
+        TextView textView_title;
+
+        public SportNewsViewHolder(View itemView) {
+            super(itemView);
+            circleImageView = itemView.findViewById(R.id.ImageView);
+            textView_title = itemView.findViewById(R.id.News_Title);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mListener.onItemClicked(position);
+                        }
+                    }
+
+                }
+            });
+        }
+    }
+
+    public class TechNewsViewHolder extends RecyclerView.ViewHolder {
+        CircleImageView circleImageView;
+        TextView textView_title;
+
+        public TechNewsViewHolder(View itemView) {
+            super(itemView);
+            circleImageView = itemView.findViewById(R.id.ImageView);
+            textView_title = itemView.findViewById(R.id.News_Title);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mListener.onItemClicked(position);
+                        }
+                    }
+
+                }
+            });
+        }
+    }
+
+
 }

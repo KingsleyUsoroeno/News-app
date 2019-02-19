@@ -43,9 +43,7 @@ public class SportFragmentAdapter extends RecyclerView.Adapter<SportFragmentAdap
 
     @Override
     public void onBindViewHolder(@NonNull SportViewModel holder, int position) {
-
         News newsModel = sportArray.get(holder.getAdapterPosition());
-
         Glide.with(context)
                 .asBitmap()
                 .load(newsModel.getUrlToImage())
@@ -62,11 +60,10 @@ public class SportFragmentAdapter extends RecyclerView.Adapter<SportFragmentAdap
         } else {
             return sportArray.size();
         }
-
     }
 
-    public void setNewsList(List<SportNews> news) {
-        this.sportArray = news;
+    public void setNewsList(List<SportNews> sportNewsArray) {
+        this.sportArray = sportNewsArray;
         notifyDataSetChanged();
     }
 
@@ -79,9 +76,8 @@ public class SportFragmentAdapter extends RecyclerView.Adapter<SportFragmentAdap
         public SportViewModel(View itemView) {
             super(itemView);
 
-            circleImageView = (CircleImageView) itemView.findViewById(R.id.ImageView);
-            textView_title = (TextView) itemView.findViewById(R.id.News_Title);
-
+            circleImageView = itemView.findViewById(R.id.ImageView);
+            textView_title = itemView.findViewById(R.id.News_Title);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

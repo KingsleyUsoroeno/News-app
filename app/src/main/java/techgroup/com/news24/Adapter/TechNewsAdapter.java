@@ -13,19 +13,16 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import techgroup.com.news24.Models.GeneralNews;
-import techgroup.com.news24.Models.News;
-import techgroup.com.news24.Models.SportNews;
 import techgroup.com.news24.Models.TechNews;
 import techgroup.com.news24.R;
 
-public class SportRecyclerAdapter extends RecyclerView.Adapter<SportRecyclerAdapter.GeneralNewsViewHolder> {
+public class TechNewsAdapter extends RecyclerView.Adapter<TechNewsAdapter.GeneralNewsViewHolder> {
 
     private Context context;
     private List<TechNews> newsArrayList;
     private OnItemClickListener mListener;
 
-    public SportRecyclerAdapter(Context context) {
+    public TechNewsAdapter(Context context) {
         this.context = context;
     }
     public void setOnItemClickListener(OnItemClickListener listener){

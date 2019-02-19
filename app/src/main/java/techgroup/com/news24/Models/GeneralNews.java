@@ -1,12 +1,12 @@
 package techgroup.com.news24.Models;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-@Entity(tableName = "general_news")
+@Entity(tableName = "general_news", indices = @Index(value = {"title"}, unique = true))
 public class GeneralNews extends News implements Parcelable {
-
 
     public GeneralNews(String author, String title, String description, String urlToImage,String url) {
         super(author, title, description, urlToImage,url);

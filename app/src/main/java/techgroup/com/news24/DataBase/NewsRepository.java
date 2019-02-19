@@ -22,7 +22,6 @@ public class NewsRepository {
     private LiveData<List<SportNews>> sportNewsLiveData;
     private LiveData<List<TechNews>> techNewsLiveData;
 
-
     public NewsRepository(Application application) {
         NewsDataBase newsDataBase = NewsDataBase.getInstance(application);
         newsDao = newsDataBase.newsDao();
@@ -93,7 +92,6 @@ public class NewsRepository {
     }
 
     private static class InsertGeneralNews extends AsyncTask<List<GeneralNews>, Void, Void> {
-
         // So in these InsertPictureAsyncTask we must have Access to our
         // NoteDao as we use our NoteDao to perform Database operations
         private NewsDao newsDao;
@@ -104,7 +102,6 @@ public class NewsRepository {
             generalNews = news;
         }
 
-
         @Override
         protected Void doInBackground(List<GeneralNews>... arrayLists) {
             newsDao.insertGeneral(generalNews);
@@ -114,7 +111,6 @@ public class NewsRepository {
     }
 
     private static class InsertSportNews extends AsyncTask<List<SportNews>, Void, Void> {
-
         // So in these InsertPictureAsyncTask we must have Access to our
         // NoteDao as we use our NoteDao to perform Database operations
 
@@ -127,7 +123,6 @@ public class NewsRepository {
             sportNews = news;
         }
 
-
         @Override
         protected Void doInBackground(List<SportNews>... news) {
             newsDao.insertSport(sportNews);
@@ -136,7 +131,6 @@ public class NewsRepository {
     }
 
     private static class InsertTechNews extends AsyncTask<List<TechNews>, Void, Void> {
-
         // So in these InsertPictureAsyncTask we must have Access to our
         // NoteDao as we use our NoteDao to perform Database operations
 
@@ -148,7 +142,6 @@ public class NewsRepository {
             this.newsDao = newsDao;
             techNews = tech;
         }
-
 
         @Override
         protected Void doInBackground(List<TechNews>... arrayLists) {
